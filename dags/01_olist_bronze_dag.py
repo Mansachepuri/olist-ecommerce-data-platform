@@ -76,5 +76,10 @@ with DAG(
             task_id="bronze_smoke_check",
             python_callable=bronze_smoke_check,
         )
+    with TaskGroup("tg_bronze_quality_checks") as tg_bronze_quality_checks:
+        t_quality_checks = BashOperator(
+            task_id="run_bronze_quality_checks_script",
+            bash_command="python /opt/airflow/jobs/bronze/bronze_quality_checks.py",
+        )
 
-    tg_validate_raw >> tg_bronze_ingest >> tg_bronze_smoke
+    tg_validate_raw >> tg_bronze_ingest >> tg_bronze_smoke >> tg_bronze_quality_checks

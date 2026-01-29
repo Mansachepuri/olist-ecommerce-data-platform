@@ -1,0 +1,7 @@
+data_source olist_postgres:
+  type: postgres
+  host: postgres
+  port: 5432
+  username: ${POSTGRES_USER}
+  password: ${POSTGRES_PASSWORD}
+  database: ${POSTGRES_DB}
