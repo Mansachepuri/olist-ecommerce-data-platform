@@ -1,0 +1,16 @@
+{
+  "dataset": "olist",
+  "raw_base_path": "/opt/data/raw/olist",
+  "bronze_base_path": "/opt/data/bronze/olist",
+  "tables": [
+    { "name": "customers", "file": "olist_customers_dataset.csv" },
+    { "name": "orders", "file": "olist_orders_dataset.csv" },
+    { "name": "order_items", "file": "olist_order_items_dataset.csv" },
+    { "name": "order_payments", "file": "olist_order_payments_dataset.csv" },
+    { "name": "order_reviews", "file": "olist_order_reviews_dataset.csv" },
+    { "name": "products", "file": "olist_products_dataset.csv" },
+    { "name": "sellers", "file": "olist_sellers_dataset.csv" },
+    { "name": "geolocation", "file": "olist_geolocation_dataset.csv" },
+    { "name": "product_category_translation", "file": "product_category_name_translation.csv" }
+  ]
+}
