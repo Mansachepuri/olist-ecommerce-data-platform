@@ -1,0 +1,22 @@
+[2026-01-30T17:22:50.589+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: 03_olist_gold_build_and_publish.tg_build_gold.build_gold_parquet manual__2026-01-30T17:22:48.544965+00:00 [queued]>
+[2026-01-30T17:22:50.593+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: 03_olist_gold_build_and_publish.tg_build_gold.build_gold_parquet manual__2026-01-30T17:22:48.544965+00:00 [queued]>
+[2026-01-30T17:22:50.593+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-01-30T17:22:50.598+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): tg_build_gold.build_gold_parquet> on 2026-01-30 17:22:48.544965+00:00
+[2026-01-30T17:22:50.603+0000] {standard_task_runner.py:60} INFO - Started process 190 to run task
+[2026-01-30T17:22:50.604+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', '03_olist_gold_build_and_publish', 'tg_build_gold.build_gold_parquet', 'manual__2026-01-30T17:22:48.544965+00:00', '--job-id', '24', '--raw', '--subdir', 'DAGS_FOLDER/03_olist_gold_publish_dag.py', '--cfg-path', '/tmp/tmpxquni9cu']
+[2026-01-30T17:22:50.605+0000] {standard_task_runner.py:88} INFO - Job 24: Subtask tg_build_gold.build_gold_parquet
+[2026-01-30T17:22:50.628+0000] {task_command.py:423} INFO - Running <TaskInstance: 03_olist_gold_build_and_publish.tg_build_gold.build_gold_parquet manual__2026-01-30T17:22:48.544965+00:00 [running]> on host 0eef5975e85e
+[2026-01-30T17:22:50.672+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='03_olist_gold_build_and_publish' AIRFLOW_CTX_TASK_ID='tg_build_gold.build_gold_parquet' AIRFLOW_CTX_EXECUTION_DATE='2026-01-30T17:22:48.544965+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-01-30T17:22:48.544965+00:00'
+[2026-01-30T17:22:50.674+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-01-30T17:22:50.676+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/airflow/jobs/gold/silver_to_gold.py --ingestion_date 2026-01-30']
+[2026-01-30T17:22:50.682+0000] {subprocess.py:86} INFO - Output:
+[2026-01-30T17:22:52.944+0000] {subprocess.py:93} INFO - [OK] wrote /opt/data/gold/warehouse/dim_customers/ingestion_date=2026-01-30/dim_customers_2026-01-30.parquet
+[2026-01-30T17:22:52.947+0000] {subprocess.py:93} INFO - [OK] wrote /opt/data/gold/warehouse/dim_products/ingestion_date=2026-01-30/dim_products_2026-01-30.parquet
+[2026-01-30T17:22:52.947+0000] {subprocess.py:93} INFO - [OK] wrote /opt/data/gold/warehouse/fact_orders/ingestion_date=2026-01-30/fact_orders_2026-01-30.parquet
+[2026-01-30T17:22:52.947+0000] {subprocess.py:93} INFO - [OK] wrote /opt/data/gold/warehouse/fact_order_items/ingestion_date=2026-01-30/fact_order_items_2026-01-30.parquet
+[2026-01-30T17:22:52.947+0000] {subprocess.py:93} INFO - [OK] wrote /opt/data/gold/warehouse/agg_daily_revenue/ingestion_date=2026-01-30/agg_daily_revenue_2026-01-30.parquet
+[2026-01-30T17:22:52.948+0000] {subprocess.py:93} INFO - Done ✅ Gold layer written.
+[2026-01-30T17:22:52.998+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-01-30T17:22:53.038+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=03_olist_gold_build_and_publish, task_id=tg_build_gold.build_gold_parquet, execution_date=20260130T172248, start_date=20260130T172250, end_date=20260130T172253
+[2026-01-30T17:22:53.082+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-01-30T17:22:53.109+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

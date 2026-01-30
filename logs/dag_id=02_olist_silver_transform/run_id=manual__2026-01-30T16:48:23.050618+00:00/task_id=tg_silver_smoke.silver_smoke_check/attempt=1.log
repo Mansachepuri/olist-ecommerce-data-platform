@@ -1,0 +1,14 @@
+[2026-01-30T16:48:27.027+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: 02_olist_silver_transform.tg_silver_smoke.silver_smoke_check manual__2026-01-30T16:48:23.050618+00:00 [queued]>
+[2026-01-30T16:48:27.030+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: 02_olist_silver_transform.tg_silver_smoke.silver_smoke_check manual__2026-01-30T16:48:23.050618+00:00 [queued]>
+[2026-01-30T16:48:27.031+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-01-30T16:48:27.036+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): tg_silver_smoke.silver_smoke_check> on 2026-01-30 16:48:23.050618+00:00
+[2026-01-30T16:48:27.038+0000] {standard_task_runner.py:60} INFO - Started process 574 to run task
+[2026-01-30T16:48:27.040+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', '02_olist_silver_transform', 'tg_silver_smoke.silver_smoke_check', 'manual__2026-01-30T16:48:23.050618+00:00', '--job-id', '21', '--raw', '--subdir', 'DAGS_FOLDER/02_olist_silver_dag.py', '--cfg-path', '/tmp/tmpsnlfzjd8']
+[2026-01-30T16:48:27.041+0000] {standard_task_runner.py:88} INFO - Job 21: Subtask tg_silver_smoke.silver_smoke_check
+[2026-01-30T16:48:27.068+0000] {task_command.py:423} INFO - Running <TaskInstance: 02_olist_silver_transform.tg_silver_smoke.silver_smoke_check manual__2026-01-30T16:48:23.050618+00:00 [running]> on host 0eef5975e85e
+[2026-01-30T16:48:27.107+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='02_olist_silver_transform' AIRFLOW_CTX_TASK_ID='tg_silver_smoke.silver_smoke_check' AIRFLOW_CTX_EXECUTION_DATE='2026-01-30T16:48:23.050618+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-01-30T16:48:23.050618+00:00'
+[2026-01-30T16:48:27.108+0000] {logging_mixin.py:188} INFO - Silver smoke check passed ✅ parquet_files=4
+[2026-01-30T16:48:27.108+0000] {python.py:201} INFO - Done. Returned value was: None
+[2026-01-30T16:48:27.112+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=02_olist_silver_transform, task_id=tg_silver_smoke.silver_smoke_check, execution_date=20260130T164823, start_date=20260130T164827, end_date=20260130T164827
+[2026-01-30T16:48:27.138+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-01-30T16:48:27.146+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

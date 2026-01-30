@@ -1,0 +1,14 @@
+[2026-01-30T16:47:26.679+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: 01_olist_bronze_ingestion.tg_validate_raw.validate_raw_files manual__2026-01-30T16:47:25.769396+00:00 [queued]>
+[2026-01-30T16:47:26.683+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: 01_olist_bronze_ingestion.tg_validate_raw.validate_raw_files manual__2026-01-30T16:47:25.769396+00:00 [queued]>
+[2026-01-30T16:47:26.684+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-01-30T16:47:26.689+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): tg_validate_raw.validate_raw_files> on 2026-01-30 16:47:25.769396+00:00
+[2026-01-30T16:47:26.693+0000] {standard_task_runner.py:60} INFO - Started process 378 to run task
+[2026-01-30T16:47:26.695+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', '01_olist_bronze_ingestion', 'tg_validate_raw.validate_raw_files', 'manual__2026-01-30T16:47:25.769396+00:00', '--job-id', '12', '--raw', '--subdir', 'DAGS_FOLDER/01_olist_bronze_dag.py', '--cfg-path', '/tmp/tmp08z7o089']
+[2026-01-30T16:47:26.697+0000] {standard_task_runner.py:88} INFO - Job 12: Subtask tg_validate_raw.validate_raw_files
+[2026-01-30T16:47:26.739+0000] {task_command.py:423} INFO - Running <TaskInstance: 01_olist_bronze_ingestion.tg_validate_raw.validate_raw_files manual__2026-01-30T16:47:25.769396+00:00 [running]> on host 0eef5975e85e
+[2026-01-30T16:47:26.779+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='01_olist_bronze_ingestion' AIRFLOW_CTX_TASK_ID='tg_validate_raw.validate_raw_files' AIRFLOW_CTX_EXECUTION_DATE='2026-01-30T16:47:25.769396+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-01-30T16:47:25.769396+00:00'
+[2026-01-30T16:47:26.781+0000] {logging_mixin.py:188} INFO - All raw files present under /opt/data/raw/olist ✅
+[2026-01-30T16:47:26.781+0000] {python.py:201} INFO - Done. Returned value was: None
+[2026-01-30T16:47:26.785+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=01_olist_bronze_ingestion, task_id=tg_validate_raw.validate_raw_files, execution_date=20260130T164725, start_date=20260130T164726, end_date=20260130T164726
+[2026-01-30T16:47:26.794+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-01-30T16:47:26.806+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

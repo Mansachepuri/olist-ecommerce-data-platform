@@ -1,0 +1,30 @@
+[2026-01-30T16:48:25.297+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: 02_olist_silver_transform.tg_silver_transform.run_bronze_to_silver manual__2026-01-30T16:48:23.050618+00:00 [queued]>
+[2026-01-30T16:48:25.300+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: 02_olist_silver_transform.tg_silver_transform.run_bronze_to_silver manual__2026-01-30T16:48:23.050618+00:00 [queued]>
+[2026-01-30T16:48:25.301+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-01-30T16:48:25.306+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): tg_silver_transform.run_bronze_to_silver> on 2026-01-30 16:48:23.050618+00:00
+[2026-01-30T16:48:25.308+0000] {standard_task_runner.py:60} INFO - Started process 531 to run task
+[2026-01-30T16:48:25.312+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', '02_olist_silver_transform', 'tg_silver_transform.run_bronze_to_silver', 'manual__2026-01-30T16:48:23.050618+00:00', '--job-id', '19', '--raw', '--subdir', 'DAGS_FOLDER/02_olist_silver_dag.py', '--cfg-path', '/tmp/tmp9_ua0clr']
+[2026-01-30T16:48:25.314+0000] {standard_task_runner.py:88} INFO - Job 19: Subtask tg_silver_transform.run_bronze_to_silver
+[2026-01-30T16:48:25.363+0000] {task_command.py:423} INFO - Running <TaskInstance: 02_olist_silver_transform.tg_silver_transform.run_bronze_to_silver manual__2026-01-30T16:48:23.050618+00:00 [running]> on host 0eef5975e85e
+[2026-01-30T16:48:25.402+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='02_olist_silver_transform' AIRFLOW_CTX_TASK_ID='tg_silver_transform.run_bronze_to_silver' AIRFLOW_CTX_EXECUTION_DATE='2026-01-30T16:48:23.050618+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-01-30T16:48:23.050618+00:00'
+[2026-01-30T16:48:25.406+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-01-30T16:48:25.407+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/airflow/jobs/silver/bronze_to_silver.py --ingestion_date 2026-01-30']
+[2026-01-30T16:48:25.411+0000] {subprocess.py:86} INFO - Output:
+[2026-01-30T16:48:26.724+0000] {subprocess.py:93} INFO - 
+[2026-01-30T16:48:26.726+0000] {subprocess.py:93} INFO - [INFO] Processing orders for ingestion_date=2026-01-30
+[2026-01-30T16:48:26.727+0000] {subprocess.py:93} INFO - [OK] silver.orders -> /opt/data/silver/olist/orders/ingestion_date=2026-01-30/orders_2026-01-30.parquet (rows=99441)
+[2026-01-30T16:48:26.728+0000] {subprocess.py:93} INFO - 
+[2026-01-30T16:48:26.728+0000] {subprocess.py:93} INFO - [INFO] Processing order_items for ingestion_date=2026-01-30
+[2026-01-30T16:48:26.729+0000] {subprocess.py:93} INFO - [OK] silver.order_items -> /opt/data/silver/olist/order_items/ingestion_date=2026-01-30/order_items_2026-01-30.parquet (rows=112650)
+[2026-01-30T16:48:26.729+0000] {subprocess.py:93} INFO - 
+[2026-01-30T16:48:26.730+0000] {subprocess.py:93} INFO - [INFO] Processing customers for ingestion_date=2026-01-30
+[2026-01-30T16:48:26.731+0000] {subprocess.py:93} INFO - [OK] silver.customers -> /opt/data/silver/olist/customers/ingestion_date=2026-01-30/customers_2026-01-30.parquet (rows=99441)
+[2026-01-30T16:48:26.731+0000] {subprocess.py:93} INFO - 
+[2026-01-30T16:48:26.732+0000] {subprocess.py:93} INFO - [INFO] Processing products for ingestion_date=2026-01-30
+[2026-01-30T16:48:26.732+0000] {subprocess.py:93} INFO - [OK] silver.products -> /opt/data/silver/olist/products/ingestion_date=2026-01-30/products_2026-01-30.parquet (rows=32951)
+[2026-01-30T16:48:26.732+0000] {subprocess.py:93} INFO - 
+[2026-01-30T16:48:26.732+0000] {subprocess.py:93} INFO - Done ✅ Silver layer written.
+[2026-01-30T16:48:26.783+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-01-30T16:48:26.813+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=02_olist_silver_transform, task_id=tg_silver_transform.run_bronze_to_silver, execution_date=20260130T164823, start_date=20260130T164825, end_date=20260130T164826
+[2026-01-30T16:48:26.849+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-01-30T16:48:26.877+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

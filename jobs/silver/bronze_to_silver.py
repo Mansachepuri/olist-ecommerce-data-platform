@@ -1,135 +1,159 @@
+from __future__ import annotations
 import argparse
+import os
 from datetime import datetime, timezone
-
-from pyspark.sql import SparkSession, functions as F
+from pathlib import Path
+import pandas as pd
 
 
 BRONZE_BASE = "/opt/data/bronze/olist"
 SILVER_BASE = "/opt/data/silver/olist"
 
-
-def get_default_ingestion_date() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+CORE_TABLES = ["orders", "order_items", "customers", "products"]
 
 
-def read_bronze(spark: SparkSession, table: str, ingestion_date: str):
-    path = f"{BRONZE_BASE}/{table}/ingestion_date={ingestion_date}"
-    return spark.read.parquet(path)
+def ensure_dir(path: str) -> None:
+    Path(path).mkdir(parents=True, exist_ok=True)
 
 
-def write_silver(df, table: str, ingestion_date: str):
-    out_path = f"{SILVER_BASE}/{table}/ingestion_date={ingestion_date}"
-    (
-        df.write.mode("overwrite")
-        .parquet(out_path)
-    )
-    return out_path
+def list_ingestion_dates(table: str) -> list[str]:
+    table_dir = os.path.join(BRONZE_BASE, table)
+    if not os.path.exists(table_dir):
+        return []
+    parts = [p for p in os.listdir(table_dir) if p.startswith("ingestion_date=")]
+    dates = [p.split("=", 1)[1] for p in parts]
+    return sorted(dates)
 
 
-def transform_orders(df):
-    # Cast timestamps (safe parsing)
-    ts_cols = ["order_purchase_timestamp", "order_approved_at", "order_delivered_carrier_date",
-               "order_delivered_customer_date", "order_estimated_delivery_date"]
-    for c in ts_cols:
-        if c in df.columns:
-            df = df.withColumn(c, F.to_timestamp(F.col(c)))
-
-    # Basic validity: order_id not null, customer_id not null
-    df = df.filter(F.col("order_id").isNotNull() & F.col("customer_id").isNotNull())
-
-    # Deduplicate on order_id, keep latest by ingestion_ts
-    if "ingestion_ts" in df.columns:
-        w = F.window  # placeholder to avoid importing Window for beginners
-    # Use dropDuplicates (good enough for Bronze->Silver here)
-    df = df.dropDuplicates(["order_id"])
-
-    # Keep only relevant columns (plus lineage)
-    keep = [c for c in df.columns]
-    return df.select(*keep)
+def latest_ingestion_date(table: str) -> str:
+    dates = list_ingestion_dates(table)
+    if not dates:
+        raise FileNotFoundError(f"No ingestion partitions found for bronze table: {table}")
+    return dates[-1]
 
 
-def transform_order_items(df):
-    # Cast numeric columns
-    num_cols = ["price", "freight_value"]
-    for c in num_cols:
-        if c in df.columns:
-            df = df.withColumn(c, F.col(c).cast("double"))
+def read_bronze_table(table: str, ingestion_date: str) -> pd.DataFrame:
+    part_dir = os.path.join(BRONZE_BASE, table, f"ingestion_date={ingestion_date}")
+    if not os.path.exists(part_dir):
+        raise FileNotFoundError(f"Bronze partition not found: {part_dir}")
 
-    # order_item_id should be int
+    files = [os.path.join(part_dir, f) for f in os.listdir(part_dir) if f.endswith(".parquet")]
+    if not files:
+        raise FileNotFoundError(f"No parquet files in: {part_dir}")
+
+    # read all files in the partition
+    dfs = [pd.read_parquet(f) for f in files]
+    return pd.concat(dfs, ignore_index=True)
+
+
+def write_silver_table(df: pd.DataFrame, table: str, ingestion_date: str) -> str:
+    out_dir = os.path.join(SILVER_BASE, table, f"ingestion_date={ingestion_date}")
+    ensure_dir(out_dir)
+    out_file = os.path.join(out_dir, f"{table}_{ingestion_date}.parquet")
+    df.to_parquet(out_file, index=False)
+    return out_file
+
+
+# ----------------- Table transforms -----------------
+
+def to_datetime_safe(series: pd.Series) -> pd.Series:
+    return pd.to_datetime(series, errors="coerce", utc=True)
+
+
+def transform_orders(df: pd.DataFrame) -> pd.DataFrame:
+    # Parse timestamps (coerce invalid to NaT)
+    for col in [
+        "order_purchase_timestamp",
+        "order_approved_at",
+        "order_delivered_carrier_date",
+        "order_delivered_customer_date",
+        "order_estimated_delivery_date",
+    ]:
+        if col in df.columns:
+            df[col] = to_datetime_safe(df[col])
+
+    # Validity filters
+    df = df[df["order_id"].notna()]
+    df = df[df["customer_id"].notna()]
+
+    # Deduplicate
+    df = df.drop_duplicates(subset=["order_id"], keep="last")
+
+    return df
+
+
+def transform_order_items(df: pd.DataFrame) -> pd.DataFrame:
+    # Type casts
     if "order_item_id" in df.columns:
-        df = df.withColumn("order_item_id", F.col("order_item_id").cast("int"))
+        df["order_item_id"] = pd.to_numeric(df["order_item_id"], errors="coerce").astype("Int64")
 
-    # Validity: no null keys and non-negative price
-    df = df.filter(
-        F.col("order_id").isNotNull()
-        & F.col("product_id").isNotNull()
-        & F.col("seller_id").isNotNull()
-        & (F.col("price") >= 0)
-    )
+    for col in ["price", "freight_value"]:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # Deduplicate on composite key (order_id, order_item_id)
-    if "order_id" in df.columns and "order_item_id" in df.columns:
-        df = df.dropDuplicates(["order_id", "order_item_id"])
+    # Validity filters
+    df = df[df["order_id"].notna()]
+    df = df[df["product_id"].notna()]
+    df = df[df["seller_id"].notna()]
+    if "price" in df.columns:
+        df = df[df["price"].fillna(0) >= 0]
+
+    # Deduplicate composite key
+    if "order_item_id" in df.columns:
+        df = df.drop_duplicates(subset=["order_id", "order_item_id"], keep="last")
+
+    return df
+
+
+def transform_customers(df: pd.DataFrame) -> pd.DataFrame:
+    df = df[df["customer_id"].notna()]
+    df = df[df["customer_unique_id"].notna()]
+    df = df.drop_duplicates(subset=["customer_id"], keep="last")
+    return df
+
+
+def transform_products(df: pd.DataFrame) -> pd.DataFrame:
+    df = df[df["product_id"].notna()]
+    df = df.drop_duplicates(subset=["product_id"], keep="last")
+
+    for col in [
+        "product_weight_g",
+        "product_length_cm",
+        "product_height_cm",
+        "product_width_cm",
+    ]:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
 
     return df
 
 
-def transform_customers(df):
-    # Validity: ids exist
-    df = df.filter(F.col("customer_id").isNotNull() & F.col("customer_unique_id").isNotNull())
-    df = df.dropDuplicates(["customer_id"])
-    return df
-
-
-def transform_products(df):
-    df = df.filter(F.col("product_id").isNotNull())
-    df = df.dropDuplicates(["product_id"])
-
-    # Cast some columns if present
-    for c in ["product_weight_g", "product_length_cm", "product_height_cm", "product_width_cm"]:
-        if c in df.columns:
-            df = df.withColumn(c, F.col(c).cast("double"))
-
-    return df
+TRANSFORMS = {
+    "orders": transform_orders,
+    "order_items": transform_order_items,
+    "customers": transform_customers,
+    "products": transform_products,
+}
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--ingestion_date", default=get_default_ingestion_date())
+    parser.add_argument("--ingestion_date", default=None, help="YYYY-MM-DD; defaults to latest per table")
     args = parser.parse_args()
 
-    ingestion_date = args.ingestion_date
-    spark = (
-        SparkSession.builder
-        .appName("olist_bronze_to_silver")
-        .getOrCreate()
-    )
+    for table in CORE_TABLES:
+        ingestion_date = args.ingestion_date or latest_ingestion_date(table)
 
-    # Reduce noise
-    spark.sparkContext.setLogLevel("WARN")
+        print(f"\n[INFO] Processing {table} for ingestion_date={ingestion_date}")
+        df_bronze = read_bronze_table(table, ingestion_date)
 
-    # Process core tables first
-    tables = ["orders", "order_items", "customers", "products"]
+        transform_fn = TRANSFORMS.get(table, lambda x: x)
+        df_silver = transform_fn(df_bronze)
 
-    for t in tables:
-        df_bronze = read_bronze(spark, t, ingestion_date)
+        out_file = write_silver_table(df_silver, table, ingestion_date)
+        print(f"[OK] silver.{table} -> {out_file} (rows={len(df_silver)})")
 
-        if t == "orders":
-            df_silver = transform_orders(df_bronze)
-        elif t == "order_items":
-            df_silver = transform_order_items(df_bronze)
-        elif t == "customers":
-            df_silver = transform_customers(df_bronze)
-        elif t == "products":
-            df_silver = transform_products(df_bronze)
-        else:
-            df_silver = df_bronze
-
-        out = write_silver(df_silver, t, ingestion_date)
-        print(f"[OK] silver.{t} -> {out} (rows={df_silver.count()})")
-
-    spark.stop()
-    print("Done ✅")
+    print("\nDone ✅ Silver layer written.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,22 @@
+[2026-01-30T17:22:54.976+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: 03_olist_gold_build_and_publish.tg_publish_postgres.publish_gold_to_postgres manual__2026-01-30T17:22:48.544965+00:00 [queued]>
+[2026-01-30T17:22:54.979+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: 03_olist_gold_build_and_publish.tg_publish_postgres.publish_gold_to_postgres manual__2026-01-30T17:22:48.544965+00:00 [queued]>
+[2026-01-30T17:22:54.979+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-01-30T17:22:54.984+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): tg_publish_postgres.publish_gold_to_postgres> on 2026-01-30 17:22:48.544965+00:00
+[2026-01-30T17:22:54.989+0000] {standard_task_runner.py:60} INFO - Started process 231 to run task
+[2026-01-30T17:22:54.992+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', '03_olist_gold_build_and_publish', 'tg_publish_postgres.publish_gold_to_postgres', 'manual__2026-01-30T17:22:48.544965+00:00', '--job-id', '26', '--raw', '--subdir', 'DAGS_FOLDER/03_olist_gold_publish_dag.py', '--cfg-path', '/tmp/tmp8qle3v82']
+[2026-01-30T17:22:54.997+0000] {standard_task_runner.py:88} INFO - Job 26: Subtask tg_publish_postgres.publish_gold_to_postgres
+[2026-01-30T17:22:55.027+0000] {task_command.py:423} INFO - Running <TaskInstance: 03_olist_gold_build_and_publish.tg_publish_postgres.publish_gold_to_postgres manual__2026-01-30T17:22:48.544965+00:00 [running]> on host 0eef5975e85e
+[2026-01-30T17:22:55.065+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='03_olist_gold_build_and_publish' AIRFLOW_CTX_TASK_ID='tg_publish_postgres.publish_gold_to_postgres' AIRFLOW_CTX_EXECUTION_DATE='2026-01-30T17:22:48.544965+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-01-30T17:22:48.544965+00:00'
+[2026-01-30T17:22:55.066+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-01-30T17:22:55.067+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/airflow/jobs/publish/gold_to_postgres.py --ingestion_date 2026-01-30']
+[2026-01-30T17:22:55.077+0000] {subprocess.py:86} INFO - Output:
+[2026-01-30T17:23:16.565+0000] {subprocess.py:93} INFO - [OK] loaded gold.dim_customers rows=99441
+[2026-01-30T17:23:16.568+0000] {subprocess.py:93} INFO - [OK] loaded gold.dim_products rows=32951
+[2026-01-30T17:23:16.568+0000] {subprocess.py:93} INFO - [OK] loaded gold.fact_orders rows=99441
+[2026-01-30T17:23:16.569+0000] {subprocess.py:93} INFO - [OK] loaded gold.fact_order_items rows=112650
+[2026-01-30T17:23:16.569+0000] {subprocess.py:93} INFO - [OK] loaded gold.agg_daily_revenue rows=634
+[2026-01-30T17:23:16.569+0000] {subprocess.py:93} INFO - Done ✅ Gold published to Postgres.
+[2026-01-30T17:23:16.620+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-01-30T17:23:16.654+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=03_olist_gold_build_and_publish, task_id=tg_publish_postgres.publish_gold_to_postgres, execution_date=20260130T172248, start_date=20260130T172254, end_date=20260130T172316
+[2026-01-30T17:23:16.673+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-01-30T17:23:16.690+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

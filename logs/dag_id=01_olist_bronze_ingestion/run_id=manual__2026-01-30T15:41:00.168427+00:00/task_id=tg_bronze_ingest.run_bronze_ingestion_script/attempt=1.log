@@ -1,0 +1,29 @@
+[2026-01-30T15:41:02.389+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: 01_olist_bronze_ingestion.tg_bronze_ingest.run_bronze_ingestion_script manual__2026-01-30T15:41:00.168427+00:00 [queued]>
+[2026-01-30T15:41:02.394+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: 01_olist_bronze_ingestion.tg_bronze_ingest.run_bronze_ingestion_script manual__2026-01-30T15:41:00.168427+00:00 [queued]>
+[2026-01-30T15:41:02.394+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-01-30T15:41:02.401+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): tg_bronze_ingest.run_bronze_ingestion_script> on 2026-01-30 15:41:00.168427+00:00
+[2026-01-30T15:41:02.404+0000] {standard_task_runner.py:60} INFO - Started process 249 to run task
+[2026-01-30T15:41:02.406+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', '01_olist_bronze_ingestion', 'tg_bronze_ingest.run_bronze_ingestion_script', 'manual__2026-01-30T15:41:00.168427+00:00', '--job-id', '3', '--raw', '--subdir', 'DAGS_FOLDER/01_olist_bronze_dag.py', '--cfg-path', '/tmp/tmpg483zsu1']
+[2026-01-30T15:41:02.408+0000] {standard_task_runner.py:88} INFO - Job 3: Subtask tg_bronze_ingest.run_bronze_ingestion_script
+[2026-01-30T15:41:02.441+0000] {task_command.py:423} INFO - Running <TaskInstance: 01_olist_bronze_ingestion.tg_bronze_ingest.run_bronze_ingestion_script manual__2026-01-30T15:41:00.168427+00:00 [running]> on host 0eef5975e85e
+[2026-01-30T15:41:02.512+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='01_olist_bronze_ingestion' AIRFLOW_CTX_TASK_ID='tg_bronze_ingest.run_bronze_ingestion_script' AIRFLOW_CTX_EXECUTION_DATE='2026-01-30T15:41:00.168427+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-01-30T15:41:00.168427+00:00'
+[2026-01-30T15:41:02.514+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-01-30T15:41:02.517+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/airflow/jobs/bronze/ingest_olist_to_bronze.py']
+[2026-01-30T15:41:02.522+0000] {subprocess.py:86} INFO - Output:
+[2026-01-30T15:41:05.673+0000] {subprocess.py:93} INFO - Using manifest: /opt/airflow/config/olist_tables.json
+[2026-01-30T15:41:05.677+0000] {subprocess.py:93} INFO - Raw base: /opt/data/raw/olist
+[2026-01-30T15:41:05.678+0000] {subprocess.py:93} INFO - Bronze base: /opt/data/bronze/olist
+[2026-01-30T15:41:05.678+0000] {subprocess.py:93} INFO - [OK] customers -> /opt/data/bronze/olist/customers/ingestion_date=2026-01-30/customers_2026-01-30.parquet
+[2026-01-30T15:41:05.678+0000] {subprocess.py:93} INFO - [OK] orders -> /opt/data/bronze/olist/orders/ingestion_date=2026-01-30/orders_2026-01-30.parquet
+[2026-01-30T15:41:05.678+0000] {subprocess.py:93} INFO - [OK] order_items -> /opt/data/bronze/olist/order_items/ingestion_date=2026-01-30/order_items_2026-01-30.parquet
+[2026-01-30T15:41:05.678+0000] {subprocess.py:93} INFO - [OK] order_payments -> /opt/data/bronze/olist/order_payments/ingestion_date=2026-01-30/order_payments_2026-01-30.parquet
+[2026-01-30T15:41:05.679+0000] {subprocess.py:93} INFO - [OK] order_reviews -> /opt/data/bronze/olist/order_reviews/ingestion_date=2026-01-30/order_reviews_2026-01-30.parquet
+[2026-01-30T15:41:05.680+0000] {subprocess.py:93} INFO - [OK] products -> /opt/data/bronze/olist/products/ingestion_date=2026-01-30/products_2026-01-30.parquet
+[2026-01-30T15:41:05.681+0000] {subprocess.py:93} INFO - [OK] sellers -> /opt/data/bronze/olist/sellers/ingestion_date=2026-01-30/sellers_2026-01-30.parquet
+[2026-01-30T15:41:05.682+0000] {subprocess.py:93} INFO - [OK] geolocation -> /opt/data/bronze/olist/geolocation/ingestion_date=2026-01-30/geolocation_2026-01-30.parquet
+[2026-01-30T15:41:05.682+0000] {subprocess.py:93} INFO - [OK] product_category_translation -> /opt/data/bronze/olist/product_category_translation/ingestion_date=2026-01-30/product_category_translation_2026-01-30.parquet
+[2026-01-30T15:41:05.683+0000] {subprocess.py:93} INFO - Done. Wrote 9 parquet files.
+[2026-01-30T15:41:05.739+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-01-30T15:41:05.785+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=01_olist_bronze_ingestion, task_id=tg_bronze_ingest.run_bronze_ingestion_script, execution_date=20260130T154100, start_date=20260130T154102, end_date=20260130T154105
+[2026-01-30T15:41:05.834+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-01-30T15:41:05.867+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check
