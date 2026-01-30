@@ -1528,3 +1528,10 @@
 [2026-01-30T18:14:59.812+0000] {logging_mixin.py:188} INFO - [2026-01-30T18:14:59.812+0000] {dag.py:3036} INFO - Sync 1 DAGs
 [2026-01-30T18:14:59.820+0000] {logging_mixin.py:188} INFO - [2026-01-30T18:14:59.820+0000] {dag.py:3823} INFO - Setting next_dagrun for 02_olist_silver_transform to None, run_after=None
 [2026-01-30T18:14:59.831+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/02_olist_silver_dag.py took 0.072 seconds
+[2026-01-30T18:19:04.231+0000] {processor.py:161} INFO - Started process (PID=2459) to work on /opt/airflow/dags/02_olist_silver_dag.py
+[2026-01-30T18:19:04.233+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/02_olist_silver_dag.py for tasks to queue
+[2026-01-30T18:19:04.234+0000] {logging_mixin.py:188} INFO - [2026-01-30T18:19:04.234+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/02_olist_silver_dag.py
+[2026-01-30T18:19:04.257+0000] {processor.py:840} INFO - DAG(s) '02_olist_silver_transform' retrieved from /opt/airflow/dags/02_olist_silver_dag.py
+[2026-01-30T18:19:04.302+0000] {logging_mixin.py:188} INFO - [2026-01-30T18:19:04.302+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-01-30T18:19:04.319+0000] {logging_mixin.py:188} INFO - [2026-01-30T18:19:04.318+0000] {dag.py:3823} INFO - Setting next_dagrun for 02_olist_silver_transform to None, run_after=None
+[2026-01-30T18:19:04.332+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/02_olist_silver_dag.py took 0.112 seconds
