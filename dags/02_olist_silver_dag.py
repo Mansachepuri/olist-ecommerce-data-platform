@@ -52,14 +52,14 @@ with DAG(
     ingestion_date = "{{ ds }}"
 
     with TaskGroup("tg_validate_bronze") as tg_validate_bronze:
-        t_validate = PythonOperator(
+        t_validate = PythonOperator(.  ## creating atsk that runs some python function to validate that the bronze partition for the given ingestion date exists
             task_id="validate_bronze_partition",
             python_callable=assert_bronze_partition_exists,
             op_args=[ingestion_date],
         )
 
     with TaskGroup("tg_silver_transform") as tg_silver_transform:
-        t_run_silver = BashOperator(
+        t_run_silver = BashOperator( # creating a task that runs a bash command to execute the silver transformation script, passing the ingestion date as an argument
             task_id="run_bronze_to_silver",
             bash_command=(
                 "python /opt/airflow/jobs/silver/bronze_to_silver.py "

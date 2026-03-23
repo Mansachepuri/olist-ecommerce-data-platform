@@ -1,23 +1,26 @@
-python-dotenv==1.0.1
-pydantic==2.6.1
+python-dotenv
+pydantic
 
-pandas==2.2.0
-# pyarrow==15.0.0
+pandas
+# pyarrow
 
-pyspark==3.5.0
+pyspark
 
 # Postgres client for your local scripts
-psycopg[binary]==3.2.13
-sqlalchemy==1.4.51
+psycopg[binary]
+sqlalchemy
 
 # Data Quality (Soda)
-soda-core-postgres==3.3.9
+soda-core-postgres
 
-loguru==0.7.2
-rich==13.7.0
+loguru
+rich
 
-pytest==8.0.0
-pytest-mock==3.12.0
+pytest
+pytest-mock
 
 # Optional local dashboard
-streamlit==1.31.1
+streamlit
+
+
+apache-airflow
