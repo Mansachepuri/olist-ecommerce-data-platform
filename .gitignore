@@ -1,3 +1,4 @@
 logs/
 /Users/manasachepuri/Desktop/workhub/olist-ecommerce-data-platform/jobs.md
 .env/
+.venv/lib/python3.12/site-packages
